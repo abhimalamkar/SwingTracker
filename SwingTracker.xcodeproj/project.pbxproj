@@ -14,6 +14,9 @@
 		45D9616323287CBB005E5811 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45D9616123287CBB005E5811 /* LaunchScreen.storyboard */; };
 		45D9616E23287CBB005E5811 /* SwingTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D9616D23287CBB005E5811 /* SwingTrackerTests.swift */; };
 		45D9617923287CBB005E5811 /* SwingTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D9617823287CBB005E5811 /* SwingTrackerUITests.swift */; };
+		45D9618723287E5F005E5811 /* SwingTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D9618623287E5F005E5811 /* SwingTracker.swift */; };
+		45D961892328838E005E5811 /* latestSwing.csv in Resources */ = {isa = PBXBuildFile; fileRef = 45D961882328838E005E5811 /* latestSwing.csv */; };
+		45D9618B2328884B005E5811 /* StringExtenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D9618A2328884B005E5811 /* StringExtenstion.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		45D9617423287CBB005E5811 /* SwingTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwingTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45D9617823287CBB005E5811 /* SwingTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwingTrackerUITests.swift; sourceTree = "<group>"; };
 		45D9617A23287CBB005E5811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		45D9618623287E5F005E5811 /* SwingTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwingTracker.swift; sourceTree = "<group>"; };
+		45D961882328838E005E5811 /* latestSwing.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = latestSwing.csv; sourceTree = "<group>"; };
+		45D9618A2328884B005E5811 /* StringExtenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtenstion.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +109,9 @@
 				45D9615F23287CBB005E5811 /* Assets.xcassets */,
 				45D9616123287CBB005E5811 /* LaunchScreen.storyboard */,
 				45D9616423287CBB005E5811 /* Info.plist */,
+				45D9618623287E5F005E5811 /* SwingTracker.swift */,
+				45D961882328838E005E5811 /* latestSwing.csv */,
+				45D9618A2328884B005E5811 /* StringExtenstion.swift */,
 			);
 			path = SwingTracker;
 			sourceTree = "<group>";
@@ -231,6 +240,7 @@
 			files = (
 				45D9616323287CBB005E5811 /* LaunchScreen.storyboard in Resources */,
 				45D9616023287CBB005E5811 /* Assets.xcassets in Resources */,
+				45D961892328838E005E5811 /* latestSwing.csv in Resources */,
 				45D9615E23287CB9005E5811 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,6 +267,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				45D9615B23287CB9005E5811 /* ViewController.swift in Sources */,
+				45D9618B2328884B005E5811 /* StringExtenstion.swift in Sources */,
+				45D9618723287E5F005E5811 /* SwingTracker.swift in Sources */,
 				45D9615923287CB9005E5811 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
