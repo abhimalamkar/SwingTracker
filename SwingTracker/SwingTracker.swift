@@ -34,6 +34,16 @@ class SwingTracker {
         self.data = parseSwingDataFromCsv(data: fromFile.readDataFromFile()?.toCSV() ?? [[]])
     }
     
+    func getData(atIndex:Int) -> SwingData? {
+        if atIndex > 0 && self.data != nil && atIndex < self.data!.count {
+            return self.data?[atIndex]
+        }
+        else {
+            print("index not found or invalid index")
+            return nil
+        }
+    }
+    
     func parseSwingDataFromCsv(data:[[String]]) -> [SwingData]? {
         var swingData:[SwingData] = []
         for row in data {
@@ -58,8 +68,9 @@ class SwingTracker {
     func searchContinuityAboveValue(data:Double,indexBegin:Int,indexEnd:Int,threshold:Double,
                                    winLength:Int) -> Int? {
         if let data = self.data {
-            for (i,d) in data.enumerated() {
-                if let accX = d.accelerometerData?.vector3.x {
+            for i in indexBegin...indexEnd {
+                print(i)
+                if let accX = data[i].accelerometerData?.vector3.x {
                     if threshold.isLess(than: accX) {
                         return i
                     }

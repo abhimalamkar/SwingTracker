@@ -15,9 +15,11 @@ class ViewController: UIViewController {
         
         let swingTracker = SwingTracker(fromFile: "latestSwing.csv")
         
-        let index = swingTracker.searchContinuityAboveValue(data: 0, indexBegin: 0, indexEnd: 0, threshold: 0, winLength: 0)
+        let index = swingTracker.searchContinuityAboveValue(data: 0, indexBegin: 0, indexEnd: 30, threshold: 0, winLength: 0)
         
-        print(swingTracker.data?[index!],index)
+        if let i = index {
+            print(swingTracker.getData(atIndex: i))
+        }
     }
 }
 
