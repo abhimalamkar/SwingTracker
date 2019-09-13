@@ -45,8 +45,10 @@ class SwingTracker {
     }
     
     func parseSwingDataFromCsv(data:[[String]]) -> [SwingData]? {
+        
         var swingData:[SwingData] = []
         for row in data {
+            
             if let time = Double(row[DataPoints.timestamp.rawValue]),
                 let ax = Double(row[DataPoints.ax.rawValue]),
                 let ay = Double(row[DataPoints.ay.rawValue]),
@@ -65,39 +67,89 @@ class SwingTracker {
         return swingData
     }
     
-    func searchContinuityAboveValue(data:Double,indexBegin:Int,indexEnd:Int,threshold:Double,
-                                   winLength:Int) -> Int? {
-        if let data = self.data {
-            for i in indexBegin...indexEnd {
-                print(i)
-                if let accX = data[i].accelerometerData?.vector3.x {
-                    if threshold.isLess(than: accX) {
-                        return i
+    func searchContinuityAboveValue(data:[Double],indexBegin:Int,indexEnd:Int,threshold:Double,
+                                    winLength:Int) -> Int? {
+        
+        if indexEnd >= data.count || indexBegin < 0 {
+            return nil
+        }
+        
+        for i in indexBegin...indexEnd {
+            if threshold.isLess(than: data[i]) {
+                for j in 1...winLength - 1  {
+                    if data[i+j].isLess(than: threshold) {
+                        return nil
                     }
                 }
+                return i
             }
         }
         
         return nil
     }
     
-    func backSearchContinuityWithinRange(data:Double,indexBegin:Int,_ indexEnd:Int,
-                                        _ thresholdLo:Double,_ thresholdHi:Double,_ winLength:Int) {
+    func backSearchContinuityWithinRange(data:[Double],indexBegin:Int,indexEnd:Int,
+                                         thresholdLo:Double,thresholdHi:Double,winLength:Int) -> Int? {
         
+        if indexBegin >= data.count || indexEnd < 0 {
+            return nil
+        }
+        
+        for i in stride(from: indexBegin, through: indexEnd, by: -1) {
+            if thresholdLo.isLess(than: data[i]) && data[i].isLess(than: thresholdHi) {
+                for j in 1...winLength - 1 {
+                    if data[i-j].isLess(than: thresholdLo) || thresholdHi.isLess(than: data[i-j]) {
+                        return nil
+                    }
+                }
+                
+                return i
+            }
+        }
+        
+        return nil
     }
     
-    func searchContinuityAboveValueTwoSignals(_ data1:Double,_ data2:Double,_ indexBegin:Int,
-                                             _ indexEnd:Int,_ threshold1:Double,_ threshold2:Double,
-                                             _ winLength:Int) {
+    func searchContinuityAboveValueTwoSignals(data1:[Double],data2:[Double],indexBegin:Int,
+                                              indexEnd:Int,threshold1:Double,threshold2:Double,
+                                              winLength:Int) -> Int? {
         
+        if indexEnd >= data1.count || indexBegin < 0 || indexEnd >= data2.count {
+            return nil
+        }
+        
+        for i in indexBegin...indexEnd {
+            if threshold1.isLess(than: data1[i]) && threshold2.isLess(than: data2[i]) {
+                for j in 1...winLength - 1  {
+                    if data1[i + j].isLess(than: threshold1) && data2[i + j].isLess(than: threshold2) {
+                        return nil
+                    }
+                }
+                return i
+            }
+        }
+        
+        return nil
     }
     
-    func searchMultiContinuityWithinRange(data:Double, indexBegin:Int, indexEnd:Int,
-                                          thresholdLo:Double, thresholdHi:Double, winLength:Int) {
+    func searchMultiContinuityWithinRange(data:[Double], indexBegin:Int, indexEnd:Int,
+                                          thresholdLo:Double, thresholdHi:Double, winLength:Int) -> (indexBegin:Int, indexEnd:Int)? {
         
+        if indexEnd >= data.count || indexBegin < 0 {
+            return nil
+        }
+        
+        for i in indexBegin...indexEnd {
+            if thresholdLo.isLess(than: data[i]) && data[i].isLess(than: thresholdHi) {
+                var j = 1
+                while thresholdLo.isLess(than: data[i+j]) && data[i+j].isLess(than: thresholdHi) {
+                    j += 1
+                }
+                
+                return j < winLength ? nil : (i, i + j - 1)
+            }
+        }
+        
+        return nil
     }
 }
-
-
-
-
