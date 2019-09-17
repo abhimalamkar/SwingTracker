@@ -67,47 +67,72 @@ class SwingTracker {
         return swingData
     }
     
-    func searchContinuityAboveValue(data:[Double],indexBegin:Int,indexEnd:Int,threshold:Double,
-                                    winLength:Int) -> Int? {
+    func check(data:[Double],indexBegin:Int,indexEnd:Int,threshold:Double,
+               winLength:Int,isReversed:Bool) -> Int? {
         
-        if indexEnd >= data.count || indexBegin < 0 {
+        if !isReversed ?
+            indexEnd >= data.count || indexBegin < 0 || indexEnd - indexBegin < winLength - 1 :
+            indexBegin >= data.count || indexEnd < 0 || indexBegin - indexEnd < winLength - 1 {
             return nil
         }
         
-        for i in indexBegin...indexEnd {
-            if threshold.isLess(than: data[i]) {
-                for j in 1...winLength - 1  {
-                    if data[i+j].isLess(than: threshold) {
-                        return nil
-                    }
+        if threshold.isLess(than: data[indexBegin]) {
+            for j in 1...winLength - 1  {
+                if data[indexBegin+j].isLess(than: threshold) {
+                    return nil
                 }
-                return i
             }
+            return indexBegin
+        } else {
+            return check(data: data, indexBegin: !isReversed ? indexBegin + 1 : indexBegin - 1, indexEnd: indexEnd, threshold: threshold, winLength: winLength, isReversed: isReversed)
         }
+    }
+    
+    func searchContinuityAboveValue(data:[Double],indexBegin:Int,indexEnd:Int,threshold:Double,
+                                    winLength:Int) -> Int? {
         
-        return nil
+//        if indexEnd >= data.count || indexBegin < 0 {
+//            return nil
+//        }
+//
+//        for i in indexBegin...indexEnd {
+//            if threshold.isLess(than: data[i]) {
+//                for j in 1...winLength - 1  {
+//                    if data[i+j].isLess(than: threshold) {
+//                        return nil
+//                    }
+//                }
+//                return i
+//            }
+//        }
+//
+//        return nil
+        
+        return check(data: data, indexBegin: indexBegin, indexEnd: indexEnd, threshold: threshold, winLength: winLength, isReversed: false)
     }
     
     func backSearchContinuityWithinRange(data:[Double],indexBegin:Int,indexEnd:Int,
                                          thresholdLo:Double,thresholdHi:Double,winLength:Int) -> Int? {
         
-        if indexBegin >= data.count || indexEnd < 0 {
-            return nil
-        }
+//        if indexBegin >= data.count || indexEnd < 0 {
+//            return nil
+//        }
+//
+//        for i in stride(from: indexBegin, through: indexEnd, by: -1) {
+//            if thresholdLo.isLess(than: data[i]) && data[i].isLess(than: thresholdHi) {
+//                for j in 1...winLength - 1 {
+//                    if data[i-j].isLess(than: thresholdLo) || thresholdHi.isLess(than: data[i-j]) {
+//                        return nil
+//                    }
+//                }
+//
+//                return i
+//            }
+//        }
+//
+//        return nil
         
-        for i in stride(from: indexBegin, through: indexEnd, by: -1) {
-            if thresholdLo.isLess(than: data[i]) && data[i].isLess(than: thresholdHi) {
-                for j in 1...winLength - 1 {
-                    if data[i-j].isLess(than: thresholdLo) || thresholdHi.isLess(than: data[i-j]) {
-                        return nil
-                    }
-                }
-                
-                return i
-            }
-        }
-        
-        return nil
+        return check(data: data, indexBegin: indexBegin, indexEnd: indexEnd, threshold: thresholdLo, winLength: winLength, isReversed: true)
     }
     
     func searchContinuityAboveValueTwoSignals(data1:[Double],data2:[Double],indexBegin:Int,

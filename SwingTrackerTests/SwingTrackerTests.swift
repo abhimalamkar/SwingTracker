@@ -22,14 +22,20 @@ class SwingTrackerTests: XCTestCase {
     func testSearchContinuityAboveValue(){
         if let data = swingTracker?.data?.map({($0.accelerometerData?.vector3.x)!}) {
             
-            let index = swingTracker?.searchContinuityAboveValue(data: data, indexBegin: 0, indexEnd: 30, threshold: 0, winLength: winLength)
+            let threshold = 0.0
+            
+            let index = swingTracker?.searchContinuityAboveValue(data: data, indexBegin: 0, indexEnd: 30, threshold: threshold, winLength: winLength)
+            
+            print(index)
+            
+            assert(index != nil)
             
             if let ind = index {
                 for i in ind...ind + winLength - 1 {
                     print(swingTracker?.getData(atIndex: i)?.accelerometerData?.vector3.x)
                 }
                 
-                assert((swingTracker?.getData(atIndex: ind)?.accelerometerData?.vector3.x)! > 0.0)
+                assert((swingTracker?.getData(atIndex: ind)?.accelerometerData?.vector3.x)! > threshold)
             }
         }
     }
@@ -38,6 +44,8 @@ class SwingTrackerTests: XCTestCase {
         if let data = swingTracker?.data?.map({($0.accelerometerData?.vector3.x)!}) {
             
             let index = swingTracker?.backSearchContinuityWithinRange(data: data, indexBegin: 38, indexEnd: 0, thresholdLo: 0, thresholdHi: 1, winLength: winLength)
+            
+            print(index)
             
             if let ind = index {
                 for i in stride(from: ind, through: ind - (winLength - 1), by: -1) {
